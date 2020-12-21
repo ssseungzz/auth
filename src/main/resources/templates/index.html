@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Hi</title>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" >
+
+
+</head>
+
+<body>
+
+<div class="wrapper fadeInDown zero-raduis">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
+            <h2 class="my-5">authentication</h2>
+        </div>
+
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="email" id="email" class="fadeIn second zero-raduis" name="email" placeholder="email">
+            <input type="text" id="password" class="fadeIn third zero-raduis" name="password" placeholder="password">
+        </form>
+            <input type="button" id="login" class="fadeIn fourth zero-raduis" value="login">
+            <h2>You don't have a account ?</h2>
+            <input type="button" onclick="location.href='/register'" class="fadeIn fourth zero-raduis pc" value="register">
+
+    </div>
+</div>
+
+
+<script>
+    $('#login').on('click', function(){
+        var form = {
+            email: $('#email').val(),
+            password:  $('#password').val()
+        };
+        $.ajax({
+            url: "/sign-in",
+            type: "POST",
+            data: JSON.stringify(form),
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success:function (data) {
+                if(data["responseCode"] == 1) {
+                    alert("로그인 성공!");
+                    localStorage.setItem('token', data["responseData"]["token"]);
+                    window.location.href = "main";
+                } else {
+                    alert(data["responseData"])
+                }
+            }
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
+
